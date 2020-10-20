@@ -80,7 +80,7 @@ void delete(){
         free(temp);
         getchar();
         getchar();
-        printf("\n Deleted Head \n");
+        printf("\n Deleted first node in the list\n");
     }
 }
 void _DELETE_BY_DEFAULT_(){

@@ -22,18 +22,10 @@ int main(){
     struct Node *head = NULL;
     struct Node *temp = head;
     
-    struct Object obj = {"India"};
+    struct Object obj = {"Jay", 1, 3, 7};
     temp = createNode(obj);
     head = temp;
     
-
-    obj.name = "Jay";
-    obj.id = 1;
-    obj.semester = 3;
-    obj.CGPA = 7;
-    temp->next = createNode(obj);
-    temp = temp->next;
-
     obj.name = "Shubham";
     obj.id = 2;
     obj.semester = 3;
@@ -60,7 +52,11 @@ int main(){
     temp = head;
     printf(" HEAD ");
     while(temp){
-        printf(" => %s ",temp->data.name);
+        printf("Name => %s \n",temp->data.name);
+        printf("ID => %d \n", temp->data.id);
+        printf("Semester => %d \n", temp->data.semester);
+        printf("CGPA => %lf \n", temp->data.CGPA);
+        printf("\n\n");
         temp = temp->next;
     }
     printf(" =>NULL");
