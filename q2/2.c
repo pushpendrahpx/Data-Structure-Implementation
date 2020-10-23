@@ -18,11 +18,9 @@ struct Node* createNewNode(int data){
     temp->next = head;
     return temp;
 }
-
 void seeList(){
     struct Node* temp = head->next;
     while(temp != head){
-        
         printf(" %d ",temp->data);
         if(!(temp->next == head)) printf(" => ");
         temp = temp->next;
@@ -54,7 +52,7 @@ void insert(){
     int num;
     printf("\n Enter a Number to add in Node :- "); scanf("%d",&num);
    
-        struct Node *temp = head->next;
+        struct Node *temp = head;
         while(temp){
             if(temp->next == head){
                 temp->next = createNewNode(num);
@@ -101,7 +99,7 @@ void end_now(){
 }
 int main(){
     struct Node *abcd = (struct Node*) malloc(sizeof(struct Node));
-    abcd->data = -12;
+    abcd->data = 12;
     abcd->next = abcd;
     // As Circular so Initial Sentinal Declarations
     head = abcd;
