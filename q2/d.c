@@ -1,4 +1,5 @@
 /*
+[Correct]
     U19EE003 - Pushpendra Vishwakarma
     Electrical Engineering Department, SVNIT  
 
@@ -22,7 +23,8 @@ struct Node* createNewNode(int data,struct Node* previous_Node){
 }
 void seeList(){
 
-    printf("\033[0;31m"); //Set the text to the color red
+    printf("\n\033[0;31m"); //Set the text to the color red
+    printf(" Head address = %p, head->prev = %p, head->next = %p",head,head->prev,head->next);
     struct Node *temp = head->next;
     while(temp != head){
         printf("\n Value=%d, This address = %p, Prev Address = %p, Next Address = %p => ", temp->data, temp, temp->prev, temp->next);
@@ -63,7 +65,8 @@ void insert(){
                 
                 temp->next = createNewNode(num,temp);
                 (temp->next)->prev = temp;
-
+                (temp->next)->next = head;
+                head->prev = temp->next;
                 printf("\n Element Added \n");
                 getchar();
                 getchar();
@@ -108,7 +111,9 @@ void end_now(){
 int main(){
     struct Node *abcd = (struct Node*) malloc(sizeof(struct Node));
     abcd->data = 12;
+    abcd->prev = abcd;
     abcd->next = abcd;
+    
     // As Circular so Initial Sentinal Declarations
     head = abcd;
     int choice = 0;

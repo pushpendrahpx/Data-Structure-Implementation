@@ -1,34 +1,30 @@
-/* 
+/*
 [ Final Correct ]
     U19EE003 - Pushpendra Vishwakarma
     Electrical Engineering Department, SVNIT  
-
-    My Experience with Sentinel Node was that, it really Helped and Simplified my Side Constraints, I dont have to think about the edge cases like about NULL Pointer, at the end will point NULL.
 */
 #include <stdio.h>
 #include <stdlib.h>
 struct Node{
     int data;
     struct Node* next;
+    struct Node* prev;
 }*head;
 
-
-struct Node* createNewNode(int data){
+struct Node* createNewNode(int data, struct Node* previous_address){
     struct Node* temp = (struct Node*) malloc(sizeof(struct Node));
     temp->data = data;
-    temp->next = head;
+    temp->prev = previous_address;
+    temp->next = NULL;
     return temp;
 }
 
 void seeList(){
-    struct Node* temp = head->next;
-    printf("\n head address = %p, head->next = %p\n" , head,head->next);
-    while(temp != head){
-        
-        printf("\n%d ",temp->data);
-        if(!(temp->next == head)) printf(" => ");
-
-        printf(" [ This Address %p,  Next %p ) ] >",temp,temp->next);
+    struct Node* temp = head;
+    while(temp){
+        printf("\n ( %d ",temp->data);
+        if(!(temp->next == NULL)) printf(" <=> ");
+        printf(" This Address %p,  Prev %p, Next %p ) > ",temp,temp->prev,temp->next);
         temp = temp->next;
     }
 }
@@ -36,9 +32,13 @@ void search(){
     int num;
     printf("\n Enter a Number to Search :- "); scanf("%d",&num);
     int count = 0;
-    
-        struct Node *temp = head->next;
-        do{
+    if(head == NULL){
+        printf("\n Linked List is Already Empty \n");
+        getchar();
+        getchar();
+    }else{
+        struct Node *temp = head;
+        while(temp){
             count++;
             if(temp->data == num){
                 printf("\nElement Found at Node No. %d, having data %d\n",count,num);
@@ -47,76 +47,79 @@ void search(){
                 return;
             }
             temp = temp->next;
-        }while(temp != head);
+        }
         printf("\n Element Not Found \n");
 
                 getchar();
                 getchar();
-    
+    }
 }
 void insert(){
     int num;
     printf("\n Enter a Number to add in Node :- "); scanf("%d",&num);
-   
-        struct Node* temp = head->next;
-        struct Node* temp2 = head->next;
+    if(head == NULL){
+        head = createNewNode(num,NULL);
+        return;
+    }else{
+        struct Node *temp = head;
         if(temp->data > num){
-            // When 1 element is there
-            head->next = createNewNode(num);
-            (head->next)->next = temp;
+            temp->prev = createNewNode(num,NULL);
+            (temp->prev)->next = temp;
+            head = temp->prev;
             return;
         }
-        while(temp != head){
-
+        while(temp){
             if(num < temp->data){
-                temp2->next = createNewNode(num);
-                (temp2->next)->next = temp;
+                (temp->prev)->next = createNewNode(num,temp->prev);
+                ((temp->prev)->next)->next = temp;
+                temp->prev = (temp->prev)->next;
                 return;
             }
-            if(temp->next  == head){
-                temp->next = createNewNode(num);
-                (temp->next)->next = head;
+            if(temp->next == NULL){
+                temp->next = createNewNode(num,temp);
+                (temp->next)->next = NULL;
                 return;
             }
-
-            temp2 = temp;
             temp = temp->next;
-            
         }
-        if(temp == head){// When Last Element or No Element to there are 
-            temp2->next = createNewNode(num);
-            
-                (temp2->next)->next = head;
-        }
-
+    }
 }
 void delete(){
-    
-        struct Node* temp = head->next;
-        head->next = temp->next;
-        if(head->next != head){
-            free(temp);
 
-            getchar();
-            getchar();
-            printf("\n Deleted Head \n");
-            return;
+    printf("\033[0;31m"); //Set the text to the color red
+    if(head==NULL){
+        printf("\n Linked List Already Empty \n");
+        getchar();
+        getchar();
+    }else{
+        struct Node* temp = head;
+        head = head->next;
+        if(head){
+            head->prev = NULL;
         }
-        printf("\n Linked List Already Empty\n");
-        
-    
+        if(temp){
+            free(temp);
+        }
+        printf("\n Deleted Head \n");
+        getchar();
+        getchar();
+    }
+
+    printf("\033[0m"); //Resets the text to default color
 }
 void _DELETE_BY_DEFAULT_(){
+    printf("\033[0;31m"); //Set the text to the color red
     printf("\n DELETING ALL NODES \n");
-    struct Node* temp = head->next;
-    while(temp != head){
-        head->next = temp->next;
+    struct Node* temp = head;
+    while(temp){
+        head = temp;
         printf("\n Deleted Node having value %d",temp->data);
-        
-        free(temp);
-        temp = head->next;
+        temp = temp->next;
+        free(head);
     }
     printf("\n Deleted All Nodes in Linked List \n");
+
+    printf("\033[0m"); //Resets the text to default color
 }
 void end_now(){
     _DELETE_BY_DEFAULT_();
@@ -124,16 +127,14 @@ void end_now(){
     exit(0);
 }
 int main(){
-    struct Node *abcd = (struct Node*) malloc(sizeof(struct Node));
-    abcd->data = -12;
-    abcd->next = abcd;
-    // As Circular so Initial Sentinal Declarations
-    head = abcd;
+    
+    
+    head = NULL;
     int choice = 0;
 
     start : 
     printf("=============================================================================\n");
-    printf("[ Circular Linked List ] - *head =>"); seeList(); printf(" => head ");
+    printf("[ Doubly Linked List ] - NULL <=> [ *head ]"); seeList(); printf(" => NULL ");
     printf("\n\t---- Main Menu ----\n\t1. Search an Element \t[ Press 1 ]\n\t2. Insert an Element \t[ Press 2 ]\n\t3. Delete an Element \t[ Press 3 ]\n\t4. Exit \t\t[ Press 4 ]\n============================\nEnter Your Choice : ");
     scanf("%d",&choice);
     switch (choice)

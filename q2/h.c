@@ -1,5 +1,5 @@
-/* 
-[ Final Correct ]
+/*
+[Correct]
     U19EE003 - Pushpendra Vishwakarma
     Electrical Engineering Department, SVNIT  
 
@@ -10,27 +10,28 @@
 struct Node{
     int data;
     struct Node* next;
+    struct Node* prev;
 }*head;
 
 
-struct Node* createNewNode(int data){
+struct Node* createNewNode(int data,struct Node* previous_Node){
     struct Node* temp = (struct Node*) malloc(sizeof(struct Node));
     temp->data = data;
+    temp->prev = previous_Node;
     temp->next = head;
     return temp;
 }
-
 void seeList(){
-    struct Node* temp = head->next;
-    printf("\n head address = %p, head->next = %p\n" , head,head->next);
-    while(temp != head){
-        
-        printf("\n%d ",temp->data);
-        if(!(temp->next == head)) printf(" => ");
 
-        printf(" [ This Address %p,  Next %p ) ] >",temp,temp->next);
+    printf("\n\033[0;31m"); //Set the text to the color red
+    printf(" Head address [Sentinal Node] = %p, head->prev = %p, head->next = %p",head,head->prev,head->next);
+    struct Node *temp = head->next;
+    while(temp != head){
+        printf("\n Value=%d, This address = %p, Prev Address = %p, Next Address = %p => ", temp->data, temp, temp->prev, temp->next);
         temp = temp->next;
     }
+
+    printf("\033[0m"); //Resets the text to default color
 }
 void search(){
     int num;
@@ -58,37 +59,35 @@ void insert(){
     int num;
     printf("\n Enter a Number to add in Node :- "); scanf("%d",&num);
    
-        struct Node* temp = head->next;
-        struct Node* temp2 = head->next;
-        if(temp->data > num){
-            // When 1 element is there
-            head->next = createNewNode(num);
-            (head->next)->next = temp;
+        struct Node *temp = head->next;
+        if(temp == temp->next){
+            temp->next = createNewNode(num,temp);
+            (temp->next)->next = head;
+            head->prev = temp->next;
             return;
         }
         while(temp != head){
-
             if(num < temp->data){
-                temp2->next = createNewNode(num);
-                (temp2->next)->next = temp;
+                (temp->prev)->next = createNewNode(num,temp->prev);
+                ((temp->prev)->next)->next = temp;
+                temp->prev = (temp->prev)->next;
                 return;
             }
-            if(temp->next  == head){
-                temp->next = createNewNode(num);
+
+            if(temp->next == head){
+                temp->next = createNewNode(num,temp);
                 (temp->next)->next = head;
+                head->prev = temp->next;
                 return;
             }
-
-            temp2 = temp;
+            
             temp = temp->next;
-            
         }
-        if(temp == head){// When Last Element or No Element to there are 
-            temp2->next = createNewNode(num);
-            
-                (temp2->next)->next = head;
+        if(temp == head){
+            temp->next = createNewNode(num,temp);
+            (temp->next)->next = head;
+            head->prev = temp->next;
         }
-
 }
 void delete(){
     
@@ -125,15 +124,17 @@ void end_now(){
 }
 int main(){
     struct Node *abcd = (struct Node*) malloc(sizeof(struct Node));
-    abcd->data = -12;
+    abcd->data = 12;
+    abcd->prev = abcd;
     abcd->next = abcd;
+    
     // As Circular so Initial Sentinal Declarations
     head = abcd;
     int choice = 0;
 
     start : 
     printf("=============================================================================\n");
-    printf("[ Circular Linked List ] - *head =>"); seeList(); printf(" => head ");
+    printf("[ Circular Doubly Linked List ] - *head =>"); seeList(); printf(" => head ");
     printf("\n\t---- Main Menu ----\n\t1. Search an Element \t[ Press 1 ]\n\t2. Insert an Element \t[ Press 2 ]\n\t3. Delete an Element \t[ Press 3 ]\n\t4. Exit \t\t[ Press 4 ]\n============================\nEnter Your Choice : ");
     scanf("%d",&choice);
     switch (choice)

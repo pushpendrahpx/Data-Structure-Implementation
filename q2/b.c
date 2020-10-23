@@ -1,4 +1,5 @@
-/*
+/* 
+[ Final Correct ]
     U19EE003 - Pushpendra Vishwakarma
     Electrical Engineering Department, SVNIT  
 
@@ -21,10 +22,13 @@ struct Node* createNewNode(int data){
 
 void seeList(){
     struct Node* temp = head->next;
+    printf("\n head address = %p, head->next = %p\n" , head,head->next);
     while(temp != head){
         
-        printf(" %d ",temp->data);
+        printf("\n%d ",temp->data);
         if(!(temp->next == head)) printf(" => ");
+
+        printf(" [ This Address %p,  Next %p ) ] >",temp,temp->next);
         temp = temp->next;
     }
 }

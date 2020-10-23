@@ -1,4 +1,5 @@
 /*
+[ Final Correct ]
     U19EE003 - Pushpendra Vishwakarma
     Electrical Engineering Department, SVNIT  
 */
@@ -9,6 +10,7 @@ struct Node{
     struct Node* next;
     struct Node* prev;
 }*head;
+
 struct Node* createNewNode(int data, struct Node* previous_address){
     struct Node* temp = (struct Node*) malloc(sizeof(struct Node));
     temp->data = data;
