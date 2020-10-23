@@ -9,27 +9,24 @@
 struct Node{
     int data;
     struct Node* next;
-    struct Node* prev;
 }*head;
 
 
-struct Node* createNewNode(int data,struct Node* previous_Node){
+struct Node* createNewNode(int data){
     struct Node* temp = (struct Node*) malloc(sizeof(struct Node));
     temp->data = data;
-    temp->prev = previous_Node;
     temp->next = head;
     return temp;
 }
-void seeList(){
 
-    printf("\033[0;31m"); //Set the text to the color red
-    struct Node *temp = head->next;
+void seeList(){
+    struct Node* temp = head->next;
     while(temp != head){
-        printf("\n Value=%d, This address = %p, Prev Address = %p, Next Address = %p => ", temp->data, temp, temp->prev, temp->next);
+        
+        printf(" %d ",temp->data);
+        if(!(temp->next == head)) printf(" => ");
         temp = temp->next;
     }
-
-    printf("\033[0m"); //Resets the text to default color
 }
 void search(){
     int num;
@@ -60,10 +57,7 @@ void insert(){
         struct Node *temp = head->next;
         while(temp){
             if(temp->next == head){
-                
-                temp->next = createNewNode(num,temp);
-                (temp->next)->prev = temp;
-
+                temp->next = createNewNode(num);
                 printf("\n Element Added \n");
                 getchar();
                 getchar();
@@ -107,7 +101,7 @@ void end_now(){
 }
 int main(){
     struct Node *abcd = (struct Node*) malloc(sizeof(struct Node));
-    abcd->data = 12;
+    abcd->data = -12;
     abcd->next = abcd;
     // As Circular so Initial Sentinal Declarations
     head = abcd;
@@ -115,7 +109,7 @@ int main(){
 
     start : 
     printf("=============================================================================\n");
-    printf("[ Circular Doubly Linked List ] - *head =>"); seeList(); printf(" => head ");
+    printf("[ Circular Linked List ] - *head =>"); seeList(); printf(" => head ");
     printf("\n\t---- Main Menu ----\n\t1. Search an Element \t[ Press 1 ]\n\t2. Insert an Element \t[ Press 2 ]\n\t3. Delete an Element \t[ Press 3 ]\n\t4. Exit \t\t[ Press 4 ]\n============================\nEnter Your Choice : ");
     scanf("%d",&choice);
     switch (choice)

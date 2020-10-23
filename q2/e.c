@@ -50,25 +50,34 @@ void search(){
                 getchar();
     }
 }
+/* ------------------------------ Main Part of Questions is Insertion -------------------------------------- */
 void insert(){
     int num;
     printf("\n Enter a Number to add in Node :- "); scanf("%d",&num);
     if(head == NULL){
         head = createNewNode(num);
+        head->next = NULL;
     }else{
-        struct Node *temp = head;
-        while(temp){
-            if(temp->next == NULL){
-                temp->next = createNewNode(num);
-                printf("\n Element Added \n");
-                getchar();
-                getchar();
-                break;
-            }
+        struct Node* temp2 = head;
+        struct Node* temp = head;
+        if(head->data > num){
+            temp = createNewNode(num);
+            temp->next = head;
+            head = temp;
+            return;
+        }
+        while(temp && temp->data < num){
+            temp2 = temp;
             temp = temp->next;
         }
+        temp2->next = createNewNode(num);
+        (temp2->next)->next = temp;
+
+
+
     }
 }
+/* ------------------------------ Main Part of Questions is Insertion -------------------------------------- */
 void delete(){
     if(head==NULL){
         printf("\n Linked List Already Empty \n");
@@ -80,7 +89,7 @@ void delete(){
         free(temp);
         getchar();
         getchar();
-        printf("\n Deleted first node in the list\n");
+        printf("\n Deleted Head \n");
     }
 }
 void _DELETE_BY_DEFAULT_(){
