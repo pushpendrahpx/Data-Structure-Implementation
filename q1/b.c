@@ -22,26 +22,15 @@ int main(){
     temp = createNode(obj);
     head = temp;
     
-    obj.country = "Russia";
-    temp->next = createNode(obj);
-    temp = temp->next;
-    
-    obj.country = "Canada";
-    temp->next = createNode(obj);
-    temp = temp->next;
+    //array of string
+    char elements[5][15] = {"Russia", "Canada", "China", "United States", "Australia"};
 
-    obj.country = "China";
-    temp->next = createNode(obj);
-    temp = temp->next;
-
-    obj.country = "United States";
-    temp->next = createNode(obj);
-    temp = temp->next;
-    
-    obj.country = "Australia";
-    temp->next = createNode(obj);
-    temp = temp->next;
-
+    for(int j=0; j<5; j++)
+    {
+        obj.country = elements[j];
+        temp->next = createNode(obj);
+        temp = temp->next;
+    }
 
 
     temp = head;
