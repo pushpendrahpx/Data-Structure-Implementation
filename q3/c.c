@@ -116,17 +116,15 @@ void end_now(){
     exit(0);
 }
 void reverse(){
-    struct Node *temp = head;
-    for( temp = head;temp; temp = temp->next){
-        for(struct Node* temp2 = temp->next; temp2; temp2 = temp2->next){
-            if(temp->data < temp2->data){
-                int tmp = temp2->data;
-                temp2->data = temp->data;
-                temp->data = tmp;
-                
-            }
-        }
+    struct Node *current = head,*prev=NULL,*next;
+    while(current!=NULL){
+        
+        next = current->next;
+        current->next = prev;
+        prev = current;
+        current = next;
     }
+    head = prev;
 }
 int main(){
     

@@ -109,20 +109,15 @@ void end_now(){
     exit(0);
 }
 void reverse(){
-    if(head != head->next){
-        for( struct Node *temp = head->next;temp != head; temp = temp->next){
-            for(struct Node* temp2 = temp->next; temp2 != head; temp2 = temp2->next){
-                if(temp->data < temp2->data){
-                    int tmp = temp2->data;
-                    temp2->data = temp->data;
-                    temp->data = tmp;
-                    
-                }
-            }
-        }
-    }else{
-        printf("\n Circular Linked List is Empty \n");
+    struct Node *current = head,*prev=NULL,*next;
+    while(current!=NULL){
+        
+        next = current->next;
+        current->next = prev;
+        prev = current;
+        current = next;
     }
+    head = prev;
 }
 int main(){
     struct Node *abcd = (struct Node*) malloc(sizeof(struct Node));
