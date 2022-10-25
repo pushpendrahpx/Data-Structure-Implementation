@@ -22,7 +22,7 @@ int main(){
     struct Node *head = NULL;
     struct Node *temp = head;
     
-    struct Object obj = {"India"};
+    struct Object obj;
     temp = createNode(obj);
     head = temp;
     
